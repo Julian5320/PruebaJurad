@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LibreriaDataBases" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="EstadosPrestamos">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IDLibro" Type="Int32" Nullable="false" />
+    <Property Name="IDEstudiante" Type="Int32" Nullable="false" />
+    <Property Name="FechaPrestamo" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="FechaDevolucion" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Estudiantes" Relationship="Self.FK_EstadosPrestamos_Estudiantes" FromRole="EstadosPrestamos" ToRole="Estudiantes" />
+    <NavigationProperty Name="Libros" Relationship="Self.FK_EstadosPrestamos_Libros" FromRole="EstadosPrestamos" ToRole="Libros" />
+  </EntityType>
+  <EntityType Name="Estudiantes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreEstudiante" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="EstadosPrestamos" Relationship="Self.FK_EstadosPrestamos_Estudiantes" FromRole="Estudiantes" ToRole="EstadosPrestamos" />
+  </EntityType>
+  <EntityType Name="Libros">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreLibro" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="EstadosPrestamos" Relationship="Self.FK_EstadosPrestamos_Libros" FromRole="Libros" ToRole="EstadosPrestamos" />
+  </EntityType>
+  <Association Name="FK_EstadosPrestamos_Estudiantes">
+    <End Role="Estudiantes" Type="Self.Estudiantes" Multiplicity="1" />
+    <End Role="EstadosPrestamos" Type="Self.EstadosPrestamos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estudiantes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EstadosPrestamos">
+        <PropertyRef Name="IDEstudiante" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EstadosPrestamos_Libros">
+    <End Role="Libros" Type="Self.Libros" Multiplicity="1" />
+    <End Role="EstadosPrestamos" Type="Self.EstadosPrestamos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Libros">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EstadosPrestamos">
+        <PropertyRef Name="IDLibro" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LibreriaDataBase" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="EstadosPrestamos" EntityType="Self.EstadosPrestamos" />
+    <EntitySet Name="Estudiantes" EntityType="Self.Estudiantes" />
+    <EntitySet Name="Libros" EntityType="Self.Libros" />
+    <AssociationSet Name="FK_EstadosPrestamos_Estudiantes" Association="Self.FK_EstadosPrestamos_Estudiantes">
+      <End Role="Estudiantes" EntitySet="Estudiantes" />
+      <End Role="EstadosPrestamos" EntitySet="EstadosPrestamos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EstadosPrestamos_Libros" Association="Self.FK_EstadosPrestamos_Libros">
+      <End Role="Libros" EntitySet="Libros" />
+      <End Role="EstadosPrestamos" EntitySet="EstadosPrestamos" />
+    </AssociationSet>
+    <FunctionImport Name="ObtenerEstados" ReturnType="Collection(LibreriaDataBases.ObtenerEstados_Result)" />
+  </EntityContainer>
+  <ComplexType Name="ObtenerEstados_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="Int32" Name="IDLibro" Nullable="false" />
+    <Property Type="Int32" Name="IDEstudiante" Nullable="false" />
+    <Property Type="DateTime" Name="FechaPrestamo" Nullable="false" />
+    <Property Type="DateTime" Name="FechaDevolucion" Nullable="true" />
+    <Property Type="Int32" Name="Id1" Nullable="false" />
+    <Property Type="String" Name="NombreEstudiante" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="Id2" Nullable="false" />
+    <Property Type="String" Name="NombreLibro" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="dias" Nullable="true" />
+  </ComplexType>
+</Schema>

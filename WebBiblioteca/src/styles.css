@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+.altura {
+    margin-top: 50px;
+}
+
+.formcolor {
+    background-color: white;
+}
+
+.formcolor:focus {
+    background-color: #D7E1FF;
+}
+
+body {
+    background-size: 60%;
+    background-position: top;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.55);
+    color: white;
+}

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="LibreriaDataBasesStoreContainer" CdmEntityContainer="LibreriaDataBase">
+    <EntitySetMapping Name="EstadosPrestamos">
+      <EntityTypeMapping TypeName="LibreriaDataBases.EstadosPrestamos">
+        <MappingFragment StoreEntitySet="EstadosPrestamos">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="IDLibro" ColumnName="IDLibro" />
+          <ScalarProperty Name="IDEstudiante" ColumnName="IDEstudiante" />
+          <ScalarProperty Name="FechaPrestamo" ColumnName="FechaPrestamo" />
+          <ScalarProperty Name="FechaDevolucion" ColumnName="FechaDevolucion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Estudiantes">
+      <EntityTypeMapping TypeName="LibreriaDataBases.Estudiantes">
+        <MappingFragment StoreEntitySet="Estudiantes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="NombreEstudiante" ColumnName="NombreEstudiante" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Libros">
+      <EntityTypeMapping TypeName="LibreriaDataBases.Libros">
+        <MappingFragment StoreEntitySet="Libros">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="NombreLibro" ColumnName="NombreLibro" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="ObtenerEstados" FunctionName="LibreriaDataBases.Store.ObtenerEstados">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibreriaDataBases.ObtenerEstados_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="IDLibro" ColumnName="IDLibro" />
+          <ScalarProperty Name="IDEstudiante" ColumnName="IDEstudiante" />
+          <ScalarProperty Name="FechaPrestamo" ColumnName="FechaPrestamo" />
+          <ScalarProperty Name="FechaDevolucion" ColumnName="FechaDevolucion" />
+          <ScalarProperty Name="Id1" ColumnName="Id1" />
+          <ScalarProperty Name="NombreEstudiante" ColumnName="NombreEstudiante" />
+          <ScalarProperty Name="Id2" ColumnName="Id2" />
+          <ScalarProperty Name="NombreLibro" ColumnName="NombreLibro" />
+          <ScalarProperty Name="dias" ColumnName="dias" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

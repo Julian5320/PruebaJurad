@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LibreriaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Estudiantes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreEstudiante" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="EstadosPrestamos" Relationship="LibreriaModel.FK_EstadosPrestamos_Estudiantes" FromRole="Estudiantes" ToRole="EstadosPrestamos" />
+  </EntityType>
+  <EntityType Name="Libros">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreLibro" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="EstadosPrestamos" Relationship="LibreriaModel.FK_EstadosPrestamos_Libros" FromRole="Libros" ToRole="EstadosPrestamos" />
+  </EntityType>
+  <EntityContainer Name="LibreriaDataBase" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Estudiantes" EntityType="Self.Estudiantes" />
+    <EntitySet Name="Libros" EntityType="Self.Libros" />
+    <EntitySet Name="EstadosPrestamos" EntityType="LibreriaModel.EstadosPrestamos" />
+    <AssociationSet Name="FK_EstadosPrestamos_Estudiantes" Association="LibreriaModel.FK_EstadosPrestamos_Estudiantes">
+      <End Role="Estudiantes" EntitySet="Estudiantes" />
+      <End Role="EstadosPrestamos" EntitySet="EstadosPrestamos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EstadosPrestamos_Libros" Association="LibreriaModel.FK_EstadosPrestamos_Libros">
+      <End Role="Libros" EntitySet="Libros" />
+      <End Role="EstadosPrestamos" EntitySet="EstadosPrestamos" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="EstadosPrestamos">
+    <Key>
+      <PropertyRef Name="IDLibro" />
+      <PropertyRef Name="IDEstudiante" />
+      <PropertyRef Name="FechaDevolucion" />
+    </Key>
+    <Property Name="IDLibro" Type="Int32" Nullable="false" />
+    <Property Name="IDEstudiante" Type="Int32" Nullable="false" />
+    <Property Name="FechaPrestamo" Type="DateTime" Precision="0" />
+    <Property Name="FechaDevolucion" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Estudiantes" Relationship="LibreriaModel.FK_EstadosPrestamos_Estudiantes" FromRole="EstadosPrestamos" ToRole="Estudiantes" />
+    <NavigationProperty Name="Libros" Relationship="LibreriaModel.FK_EstadosPrestamos_Libros" FromRole="EstadosPrestamos" ToRole="Libros" />
+  </EntityType>
+  <Association Name="FK_EstadosPrestamos_Estudiantes">
+    <End Type="LibreriaModel.Estudiantes" Role="Estudiantes" Multiplicity="1" />
+    <End Type="LibreriaModel.EstadosPrestamos" Role="EstadosPrestamos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estudiantes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EstadosPrestamos">
+        <PropertyRef Name="IDEstudiante" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EstadosPrestamos_Libros">
+    <End Type="LibreriaModel.Libros" Role="Libros" Multiplicity="1" />
+    <End Type="LibreriaModel.EstadosPrestamos" Role="EstadosPrestamos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Libros">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EstadosPrestamos">
+        <PropertyRef Name="IDLibro" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

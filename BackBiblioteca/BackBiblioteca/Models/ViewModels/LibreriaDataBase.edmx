@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LibreriaDataBases.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EstadosPrestamos">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDLibro" Type="int" Nullable="false" />
+          <Property Name="IDEstudiante" Type="int" Nullable="false" />
+          <Property Name="FechaPrestamo" Type="date" Nullable="false" />
+          <Property Name="FechaDevolucion" Type="date" />
+        </EntityType>
+        <EntityType Name="Estudiantes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreEstudiante" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Libros">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreLibro" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_EstadosPrestamos_Estudiantes">
+          <End Role="Estudiantes" Type="Self.Estudiantes" Multiplicity="1" />
+          <End Role="EstadosPrestamos" Type="Self.EstadosPrestamos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiantes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EstadosPrestamos">
+              <PropertyRef Name="IDEstudiante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EstadosPrestamos_Libros">
+          <End Role="Libros" Type="Self.Libros" Multiplicity="1" />
+          <End Role="EstadosPrestamos" Type="Self.EstadosPrestamos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libros">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EstadosPrestamos">
+              <PropertyRef Name="IDLibro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="ObtenerEstados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="LibreriaDataBasesStoreContainer">
+          <EntitySet Name="EstadosPrestamos" EntityType="Self.EstadosPrestamos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estudiantes" EntityType="Self.Estudiantes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Libros" EntityType="Self.Libros" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_EstadosPrestamos_Estudiantes" Association="Self.FK_EstadosPrestamos_Estudiantes">
+            <End Role="Estudiantes" EntitySet="Estudiantes" />
+            <End Role="EstadosPrestamos" EntitySet="EstadosPrestamos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EstadosPrestamos_Libros" Association="Self.FK_EstadosPrestamos_Libros">
+            <End Role="Libros" EntitySet="Libros" />
+            <End Role="EstadosPrestamos" EntitySet="EstadosPrestamos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LibreriaDataBases" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EstadosPrestamos">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDLibro" Type="Int32" Nullable="false" />
+          <Property Name="IDEstudiante" Type="Int32" Nullable="false" />
+          <Property Name="FechaPrestamo" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaDevolucion" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Estudiantes" Relationship="Self.FK_EstadosPrestamos_Estudiantes" FromRole="EstadosPrestamos" ToRole="Estudiantes" />
+          <NavigationProperty Name="Libros" Relationship="Self.FK_EstadosPrestamos_Libros" FromRole="EstadosPrestamos" ToRole="Libros" />
+        </EntityType>
+        <EntityType Name="Estudiantes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreEstudiante" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="EstadosPrestamos" Relationship="Self.FK_EstadosPrestamos_Estudiantes" FromRole="Estudiantes" ToRole="EstadosPrestamos" />
+        </EntityType>
+        <EntityType Name="Libros">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreLibro" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="EstadosPrestamos" Relationship="Self.FK_EstadosPrestamos_Libros" FromRole="Libros" ToRole="EstadosPrestamos" />
+        </EntityType>
+        <Association Name="FK_EstadosPrestamos_Estudiantes">
+          <End Role="Estudiantes" Type="Self.Estudiantes" Multiplicity="1" />
+          <End Role="EstadosPrestamos" Type="Self.EstadosPrestamos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiantes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EstadosPrestamos">
+              <PropertyRef Name="IDEstudiante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EstadosPrestamos_Libros">
+          <End Role="Libros" Type="Self.Libros" Multiplicity="1" />
+          <End Role="EstadosPrestamos" Type="Self.EstadosPrestamos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libros">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EstadosPrestamos">
+              <PropertyRef Name="IDLibro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LibreriaDataBase" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EstadosPrestamos" EntityType="Self.EstadosPrestamos" />
+          <EntitySet Name="Estudiantes" EntityType="Self.Estudiantes" />
+          <EntitySet Name="Libros" EntityType="Self.Libros" />
+          <AssociationSet Name="FK_EstadosPrestamos_Estudiantes" Association="Self.FK_EstadosPrestamos_Estudiantes">
+            <End Role="Estudiantes" EntitySet="Estudiantes" />
+            <End Role="EstadosPrestamos" EntitySet="EstadosPrestamos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EstadosPrestamos_Libros" Association="Self.FK_EstadosPrestamos_Libros">
+            <End Role="Libros" EntitySet="Libros" />
+            <End Role="EstadosPrestamos" EntitySet="EstadosPrestamos" />
+          </AssociationSet>
+          <FunctionImport Name="ObtenerEstados" ReturnType="Collection(LibreriaDataBases.ObtenerEstados_Result)" />
+        </EntityContainer>
+        <ComplexType Name="ObtenerEstados_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="IDLibro" Nullable="false" />
+          <Property Type="Int32" Name="IDEstudiante" Nullable="false" />
+          <Property Type="DateTime" Name="FechaPrestamo" Nullable="false" />
+          <Property Type="DateTime" Name="FechaDevolucion" Nullable="true" />
+          <Property Type="Int32" Name="Id1" Nullable="false" />
+          <Property Type="String" Name="NombreEstudiante" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="Id2" Nullable="false" />
+          <Property Type="String" Name="NombreLibro" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="dias" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LibreriaDataBasesStoreContainer" CdmEntityContainer="LibreriaDataBase">
+          <EntitySetMapping Name="EstadosPrestamos">
+            <EntityTypeMapping TypeName="LibreriaDataBases.EstadosPrestamos">
+              <MappingFragment StoreEntitySet="EstadosPrestamos">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDLibro" ColumnName="IDLibro" />
+                <ScalarProperty Name="IDEstudiante" ColumnName="IDEstudiante" />
+                <ScalarProperty Name="FechaPrestamo" ColumnName="FechaPrestamo" />
+                <ScalarProperty Name="FechaDevolucion" ColumnName="FechaDevolucion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estudiantes">
+            <EntityTypeMapping TypeName="LibreriaDataBases.Estudiantes">
+              <MappingFragment StoreEntitySet="Estudiantes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NombreEstudiante" ColumnName="NombreEstudiante" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Libros">
+            <EntityTypeMapping TypeName="LibreriaDataBases.Libros">
+              <MappingFragment StoreEntitySet="Libros">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NombreLibro" ColumnName="NombreLibro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerEstados" FunctionName="LibreriaDataBases.Store.ObtenerEstados">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibreriaDataBases.ObtenerEstados_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDLibro" ColumnName="IDLibro" />
+                <ScalarProperty Name="IDEstudiante" ColumnName="IDEstudiante" />
+                <ScalarProperty Name="FechaPrestamo" ColumnName="FechaPrestamo" />
+                <ScalarProperty Name="FechaDevolucion" ColumnName="FechaDevolucion" />
+                <ScalarProperty Name="Id1" ColumnName="Id1" />
+                <ScalarProperty Name="NombreEstudiante" ColumnName="NombreEstudiante" />
+                <ScalarProperty Name="Id2" ColumnName="Id2" />
+                <ScalarProperty Name="NombreLibro" ColumnName="NombreLibro" />
+                <ScalarProperty Name="dias" ColumnName="dias" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LibreriaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Libreria.dbo.EstadosPrestamos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="EstadosPrestamos">
+    <Key>
+      <PropertyRef Name="IDLibro" />
+      <PropertyRef Name="IDEstudiante" />
+      <PropertyRef Name="FechaDevolucion" />
+    </Key>
+    <Property Name="IDLibro" Type="int" Nullable="false" />
+    <Property Name="IDEstudiante" Type="int" Nullable="false" />
+    <Property Name="FechaPrestamo" Type="date" />
+    <Property Name="FechaDevolucion" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Estudiantes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreEstudiante" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Libros">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreLibro" Type="nchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_EstadosPrestamos_Estudiantes">
+    <End Role="Estudiantes" Type="Self.Estudiantes" Multiplicity="1" />
+    <End Role="EstadosPrestamos" Type="Self.EstadosPrestamos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estudiantes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EstadosPrestamos">
+        <PropertyRef Name="IDEstudiante" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EstadosPrestamos_Libros">
+    <End Role="Libros" Type="Self.Libros" Multiplicity="1" />
+    <End Role="EstadosPrestamos" Type="Self.EstadosPrestamos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Libros">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EstadosPrestamos">
+        <PropertyRef Name="IDLibro" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LibreriaModelStoreContainer">
+    <EntitySet Name="Estudiantes" EntityType="Self.Estudiantes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Libros" EntityType="Self.Libros" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EstadosPrestamos" EntityType="Self.EstadosPrestamos" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[EstadosPrestamos].[IDLibro] AS [IDLibro], 
+[EstadosPrestamos].[IDEstudiante] AS [IDEstudiante], 
+[EstadosPrestamos].[FechaPrestamo] AS [FechaPrestamo], 
+[EstadosPrestamos].[FechaDevolucion] AS [FechaDevolucion]
+FROM [dbo].[EstadosPrestamos] AS [EstadosPrestamos]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_EstadosPrestamos_Estudiantes" Association="Self.FK_EstadosPrestamos_Estudiantes">
+      <End Role="Estudiantes" EntitySet="Estudiantes" />
+      <End Role="EstadosPrestamos" EntitySet="EstadosPrestamos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EstadosPrestamos_Libros" Association="Self.FK_EstadosPrestamos_Libros">
+      <End Role="Libros" EntitySet="Libros" />
+      <End Role="EstadosPrestamos" EntitySet="EstadosPrestamos" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

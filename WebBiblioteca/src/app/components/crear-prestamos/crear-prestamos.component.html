@@ -1,0 +1,20 @@
+<div class="input-group">.
+  <div class="col-3"></div>
+    <div class="col-6">
+      Estudiantes
+        <select  class="custom-select" required #valSelectedEstudiante aria-label="Default select example">
+        <option selected value="0">Seleccionar</option>
+        <option *ngFor="let item of resultadoEstudiantes" value="{{item.Id}}">{{item.Nombre}}</option>
+      </select>
+      <br>
+      Libros
+      <select  class="custom-select"required #valSelectedLibro aria-label="Default select example">
+        <option selected value="0">Seleccionar</option>
+        <option *ngFor="let item of resultadoLibros" value="{{item.Id}}">{{item.Nombre}}</option>
+      </select>
+      <button type="button" class="btn btn-primary altura" (click)="consultVal(valSelectedLibro.value,valSelectedEstudiante.value)">Crear</button>
+
+    </div>
+    <div class="col-3"></div>
+
+</div>
